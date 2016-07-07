@@ -1,10 +1,7 @@
-var ue;
 $(function(){
-    ue = UE.getEditor('editor',{
-        elementPathEnabled: false,
-        initialStyle: 'p{line-height:1em;font-size:14px;font-family:微软雅黑;}',
-    });
     sendclick();
+    stopclick();
+    clsclick();
 });
 
 function sendclick(){
@@ -12,51 +9,55 @@ function sendclick(){
         send();
     });
 }
-var tj=0,e2;
+
+function clsclick(){
+    $(".cls").bind('click',function(){
+        $(".info").html('');
+    });
+}
+
+function stopclick(){
+    $(".stop").bind('click',function(){
+        //window.clearInterval(si);//停止
+        tj = num;
+        info2= true;
+    });
+}
+
+var tj=0,e2,si,num,info2 = false,host1,username,password,from,fromName;
 function send(){
     tj=0;
+    info2 = false;
+
+    host1 = $(".host").val().trim();
+    username = $(".username").val().trim();
+    password = $(".password").val().trim();
+    from = $(".from").val().trim();
+    fromName = $(".fromName").val().trim();
+
     var t = $(".title_in input").val().trim();
     var e = $("#emails_con").val().trim();
-    //var c = ue.hasContents()?ue.getContent():false;
     var c = $("#con_con").val().trim();
+
     e2 = e.split(';');
-    var num = e2.length;
-    //$(".send").unbind('click');
-    xh(t,c,e2[0],num);
-    console.log(t,c,e2,num);
-    // if(t != '' && c && e!=''){
-    //     $(".send").unbind('click');
-    //     $.ajax({
-    //         type: 'POST',
-    //         url:  'sendmail.php',
-    //         data: {"t":t,"c":c,"e":e},
-    //         dataType: 'json',
-    //         beforeSend:function(){
-    //             $(".info").html('正在发送。。。');
-	// 	    },
-    //         success:function(dt){
-    //             $(".info").html(dt.b);
-    //             if(dt.i){
-    //                 $(".title_in input").val('');
-    //                 ue.execCommand('cleardoc');
-    //             }
-    //             sendclick();
-    //         }
-    //     });
-    // }else{
-    //     $(".info").html('主题和内容不能为空！');
-    // }
+    num = e2.length;
+    xh(t,c,e2[0]);
+    console.log(host1,username,password,from,fromName,t,c,e2,num);
 }
-function xh(t,c,e,num){
-    if(t != '' && c!='' && e!=''){
+function xh(t,c,e){
         if(Number(tj)>Number(num-1)){
-            $(".info2").html('');
+            if(info2){
+                $(".info2").html('已暂停！');
+            }else{
+                $(".info2").html('已完成！');
+            }
+            
             return false;
         }
         $.ajax({
             type: 'POST',
             url:  'sendmail.php',
-            data: {"t":t,"c":c,"e":e},
+            data: {"t":t,"c":c,"e":e,"host1":host1,"username":username,"password":password,"from":from,"fromName":fromName},
             dataType: 'json',
             beforeSend:function(){
                 $(".info2").html('正在发送。。。');
@@ -64,16 +65,7 @@ function xh(t,c,e,num){
             success:function(dt){
                 $(".info").append(e+' '+dt.b+'<br>');
                 tj++;
-                setInterval(xh(t,c,e2[tj],num), 500);
-                // if(dt.i){
-                //     $(".title_in input").val('');
-                //     ue.execCommand('cleardoc');
-                // }
-                // sendclick();
+                si = setInterval(xh(t,c,e2[tj]), 1000);
             }
         });
-    }else{
-        $(".info2").html('');
-        $(".info").append('主题和内容不能为空！<br>');
-    }
 }

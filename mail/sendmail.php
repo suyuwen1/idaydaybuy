@@ -1,19 +1,19 @@
 <?php
     require 'phpmail/PHPMailerAutoload.php';
-    if(!empty($_POST['t']) && !empty($_POST['c']) && !empty($_POST['e'])){
+    if(!empty($_POST['t']) && !empty($_POST['c']) && !empty($_POST['e']) && !empty($_POST['host1']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['from']) && !empty($_POST['fromName'])){
         $mail = new PHPMailer;
         $mail->isSMTP();
-        $mail->Host = "smtp.qq.com";
+        $mail->Host = $_POST['host1'];
         //$mail->Port = 25;
         $mail->CharSet = "UTF-8";
 		$mail->isHTML(true);
 		//$mail->setLanguage('zh_cn');
-		$mail->Username='admin@idaydaybuy.com';
-		$mail->Password='apedqizfcvzbbcbc';
+		$mail->Username=$_POST['username'];
+		$mail->Password=$_POST['password'];
 		$mail->Priority = 3;
         $mail->SMTPAuth = true; //开启认证
-		$mail->From = 'admin@idaydaybuy.com';
-		$mail->FromName = '弘阔佳易数码';
+		$mail->From = $_POST['from'];
+		$mail->FromName = $_POST['fromName'];
         $mail->addAddress($_POST['e']);
         $mail->Subject = $_POST['t'];
 		$mail->Body    = $_POST['c'];
@@ -28,7 +28,7 @@
 		}
     }else{
         $back['i'] = 0;
-        $back['b'] = '主题、邮件、内容不能为空！';
+        $back['b'] = '主题、邮件、内容等不能为空！';
     }
     echo json_encode($back);
 ?>
