@@ -24,7 +24,7 @@ function stopclick(){
     });
 }
 
-var tj=0,e2,si,num,info2 = false,host1,username,password,from,fromName;
+var tj=0,e2,si,num,info2 = false,host1,username,password,from,fromName,ssl,port;
 function send(){
     tj=0;
     info2 = false;
@@ -34,6 +34,9 @@ function send(){
     password = $(".password").val().trim();
     from = $(".from").val().trim();
     fromName = $(".fromName").val().trim();
+    ssl = $(".ssl").prop('checked');
+    port = $(".port").val().trim();
+
 
     var t = $(".title_in input").val().trim();
     var e = $("#emails_con").val().trim();
@@ -42,7 +45,7 @@ function send(){
     e2 = e.split(';');
     num = e2.length;
     xh(t,c,e2[0]);
-    console.log(host1,username,password,from,fromName,t,c,e2,num);
+    console.log(host1,username,password,from,fromName,ssl,port,t,c,e2,num);
 }
 function xh(t,c,e){
         if(Number(tj)>Number(num-1)){
@@ -57,7 +60,7 @@ function xh(t,c,e){
         $.ajax({
             type: 'POST',
             url:  'sendmail.php',
-            data: {"t":t,"c":c,"e":e,"host1":host1,"username":username,"password":password,"from":from,"fromName":fromName},
+            data: {"t":t,"c":c,"e":e,"host1":host1,"username":username,"password":password,"from":from,"fromName":fromName,"ssl":ssl,"port":port},
             dataType: 'json',
             beforeSend:function(){
                 $(".info2").html('正在发送。。。');

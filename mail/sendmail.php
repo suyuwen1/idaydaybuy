@@ -1,13 +1,16 @@
 <?php
     require 'phpmail/PHPMailerAutoload.php';
-    if(!empty($_POST['t']) && !empty($_POST['c']) && !empty($_POST['e']) && !empty($_POST['host1']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['from']) && !empty($_POST['fromName'])){
+    if(!empty($_POST['t']) && !empty($_POST['c']) && !empty($_POST['e']) && !empty($_POST['host1']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['from']) && !empty($_POST['fromName']) && !empty($_POST['ssl']) && !empty($_POST['port'])){
         $mail = new PHPMailer;
         $mail->isSMTP();
         $mail->Host = $_POST['host1'];
-        //$mail->Port = 25;
+        $mail->Port = $_POST['port'];
         $mail->CharSet = "UTF-8";
 		$mail->isHTML(true);
 		//$mail->setLanguage('zh_cn');
+        if($_POST['ssl']){
+            $mail->SMTPSecure = "ssl";
+        }
 		$mail->Username=$_POST['username'];
 		$mail->Password=$_POST['password'];
 		$mail->Priority = 3;

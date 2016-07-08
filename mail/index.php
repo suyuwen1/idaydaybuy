@@ -15,9 +15,11 @@
     <div id="main">
         <div id="text">发送邮件</div>
         <div id="mail">
-            Host：<input class="host" type="text" value="smtp.qq.com">
+            Host：<input class="host" type="text" value="smtp.idaydaybuy.com">
             Username：<input class="username" type="text" value="admin@idaydaybuy.com">
-            Password：<input class="password" type="text" value="apedqizfcvzbbcbc">
+            Password：<input class="password" type="text" value="Suyuwen1">
+            SSL：<input class="ssl" type="checkbox">
+            端口：<input style="width:50px;" class="port" type="text" value="465">
             发件人邮箱：<input class="from" type="text" value="admin@idaydaybuy.com">
             发件人名称：<input class="fromName" type="text" value="弘阔佳易数码">
         </div>
